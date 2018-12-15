@@ -83,7 +83,7 @@ dev.copy(png,'ggplot_3.png')
 dev.off()
 
 #other plot (PCP)
-parcoord(mydf[, c(1, 10, 16)], col=rainbow(length(mydf[, 1])), lty=1:5, var.label=TRUE)
+parcoord(mydf[, c(1, 10, 16)], col=rainbow(length(mydf[, 1])), lty=1:5, var.label=TRUE, main = "parallel coordinates plot (PCP)")
 dev.copy(png,'PCP.png')
 dev.off()
 
@@ -101,6 +101,17 @@ pic <- plot_ly(mydf, x = ~GP, y = ~Ovrl, z = ~G,
 pic
 api_create(pic, filename = "3D Scatter Plot")
 htmlwidgets::saveWidget(as_widget(pic), "3d_scatter_plot.html")
+
+pic_1 <- plot_ly(mydf, x = ~Wt, y = ~A, z = ~G, 
+                 marker = list(color = ~Salary, colorscale = c('#184ea5', '#020e21'), showscale = TRUE)) %>%
+  add_markers() %>%
+  layout(title = "Goal/Assist/Weight and Salary in 3D", 
+         scene = list(xaxis = list(title = 'Weight'),
+                      yaxis = list(title = 'Total Assists Recorded'),
+                      zaxis = list(title = 'Total Goals Scored')))
+pic_1
+api_create(pic_1, filename = "3D Scatter Plot (1)")
+htmlwidgets::saveWidget(as_widget(pic_1), "3d_scatter_plot_1.html")
 
 #leaflet
 url <-"https://raw.githubusercontent.com/nhlscorebot/arenas/master/teams.json"
@@ -240,6 +251,9 @@ D3_network <- networkD3::forceNetwork(Links = edgeList,
                                       linkColour = edges_col) 
 D3_network #plot
 networkD3::saveNetwork(D3_network, "D3_R.html", selfcontained = TRUE) #save as html
+
+
+
 
 
 
